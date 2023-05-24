@@ -90,15 +90,28 @@ function TraitTags:getPlayerTraitTags(player)
     local playerTraits = player:getTraits();
     local concatenatedTags = "";
     local returnString = "";
+    local traitName = "";
+    --
+    --local test1 = getn(playerTraits);
+    --print(tostring(test1));
+    --
     if playerTraits ~= nil
     then
-        for _, trait in ipairs(playerTraits)
+        for i = 1, playerTraits:size() -1
         do
-            print(_..", "..trait);
+            local trait = playerTraits:get(i);
+
             if TraitTags[trait] ~= nil
             then
-                concatenatedTags = table.concat(TraitTags[trait], ',');
-                returnString = returnString..concatenatedTags..concatenatedTags;
+                concatenatedTags = "";
+                for _,tag in pairs(TraitTags[trait])
+                do
+                    if not returnString:contains(tag)
+                    then
+                        concatenatedTags = concatenatedTags..","..tag;
+                    end
+                end
+                returnString = returnString..concatenatedTags;
             end
         end
     end
@@ -133,11 +146,11 @@ function TraitTags:getTagsStatistics()
     end
     table.sort(sortTable, function(a, b) return a.count > b.count end);
 
-    --condense (limitation: cannot make a sorted table in vanilla lua. Return as string instead.
+    --condense (limitation: cannot make a sorted table in vanilla lua. Return as string instead.)
 
-    for i = 1, getn(sortTable)
+    for _,entry in pairs(sortTable)
     do
-        returnString = returnString..sortTable[i].tag..": "..sortTable[i].count.."; "
+        returnString = returnString..entry.tag..": "..entry.count.."; "
     end
 
     return returnString;
