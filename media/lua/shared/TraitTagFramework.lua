@@ -199,7 +199,31 @@ function TraitTags:getPlayerTagStatistics(player)
     return returnString;
 end
 
-function TraitTags:PlayerTagLargerCountThan(player, subjectTag, comparatorTag)
+
+function TraitTags:PlayerHasTag(player, targetTag)
+    local playerTraits = player:getTraits();
+    local trait = {};
+    local tagTable = {};
+
+    for i=1, playerTraits:size() -1
+    do
+        trait = playerTraits:get(i);
+        if TraitTags[trait] ~= nil
+        then
+            tagTable = TraitTags[trait];
+            for _, tag in ipairs(tagTable)
+            do
+                if tag == targetTag
+                    then
+                    return true;
+                end
+            end
+        end
+    end
+    return false;
+end
+
+function TraitTags:PlayerTagCountLargerThan(player, subjectTag, comparatorTag)
     local stats = TraitTags:getPlayerTagStatistics(player);
     local subjectIndexS, subjectIndexE = stats:find(subjectTag);
     local comparatorIndexS, comparatorIndexE = stats:find(comparatorTag);
