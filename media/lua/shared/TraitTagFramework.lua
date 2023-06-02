@@ -1,13 +1,14 @@
-TraitTags = {}
+local TraitTags = {}
+TraitTags.tags = {}
 
-local function sanitizeTags(tagString)
+TraitTags.sanitizeTags = function(tagString)
     --remove all spaces, control characters, null, punctuation & symbols (except commas)
     local workString = tagString:gsub('[^%w,]', '')
     return workString;
 end
 
 
-function TraitTags:toString()
+TraitTags.toString = function()
     local returnString = "";
 
     for trait, tagTable in pairs(TraitTags)
@@ -24,7 +25,7 @@ function TraitTags:toString()
 end
 
 
-function TraitTags:tagTableToString(traitName)
+TraitTags.tagTableToString= function(traitName)
     local returnString = "";
 
     if TraitTags[traitName] ~= nil
@@ -38,7 +39,7 @@ end
 
 
 --Uses alphanumberic symbols and commas only.
-function TraitTags:add(traitName, tags)
+TraitTags.add = function(traitName, tags)
     local sanitizedTags = sanitizeTags(tags);
     local tagTable = {};
     if TraitFactory.getTrait(traitName)
@@ -62,7 +63,7 @@ function TraitTags:add(traitName, tags)
 end
 
 
-function TraitTags:remove(traitName)
+TraitTags.remove = function(traitName)
     if TraitTags[traitName] ~= nil
     then
         table.remove(TraitTags, traitName)
@@ -72,12 +73,12 @@ function TraitTags:remove(traitName)
 end
 
 
-function TraitTags:getTraitTags()
+TraitTags.getTraitTags = function()
     return TraitTags;
 end
 
 
-function TraitTags:getTagTable(traitName)
+TraitTags.getTagTable = function()
     if TraitTags[traitName] ~= nil
     then
         return TraitTags[traitName]
@@ -87,7 +88,7 @@ function TraitTags:getTagTable(traitName)
 end
 
 
-function TraitTags:getTagStatistics()
+TraitTags.getTagStatistics = function()
     local tempTable = {};
     local sortTable = {};
     local returnString = "";
@@ -126,7 +127,7 @@ function TraitTags:getTagStatistics()
 end
 
 
-function TraitTags:getPlayerTraitTags(player)
+TraitTags.getPlayerTraitTags = function(player)
     local playerTraits = player:getTraits();
     local concatenatedTags = "";
     local returnString = "";
@@ -156,13 +157,14 @@ function TraitTags:getPlayerTraitTags(player)
 end
 
 
-function TraitTags:getPlayerTagStatistics(player)
+TraitTags.getPlayerTagStatistics = function(player)
     local playerTraits = player:getTraits();
     local trait = {};
     local tagTable = {};
     local tempTable = {};
     local sortTable = {};
     local returnString = "";
+
 
     --get
     for i=1, playerTraits:size() -1
@@ -183,6 +185,7 @@ function TraitTags:getPlayerTagStatistics(player)
         end
     end
 
+
     --sort
     for key, value in pairs(tempTable) do
         table.insert(sortTable, {tag = key, count = value})
@@ -200,7 +203,7 @@ function TraitTags:getPlayerTagStatistics(player)
 end
 
 
-function TraitTags:PlayerHasTag(player, targetTag)
+TraitTags.PlayerHasTag = function(player, targetTag)
     local playerTraits = player:getTraits();
     local trait = {};
     local tagTable = {};
@@ -223,7 +226,8 @@ function TraitTags:PlayerHasTag(player, targetTag)
     return false;
 end
 
-function TraitTags:PlayerTagCountLargerThan(player, subjectTag, comparatorTag)
+
+TraitTags.PlayerTagCountLargerThan = function(player, subjectTag, comparatorTag)
     local stats = TraitTags:getPlayerTagStatistics(player);
     local subjectIndexS, subjectIndexE = stats:find(subjectTag);
     local comparatorIndexS, comparatorIndexE = stats:find(comparatorTag);
@@ -244,3 +248,20 @@ function TraitTags:PlayerTagCountLargerThan(player, subjectTag, comparatorTag)
         return nil;
     end
 end
+
+
+TraitTags.TTInit= function()
+    if not ModData.exists(TraitTags)
+    then
+        ModData.add("TraitTags", TraitTags.tags)
+        if getDebug()
+        then
+            print("TraitTags: ModData table created.")
+        end
+    end
+end
+
+
+Events.OnGameBoot.Add(TTInit);
+--Events.OnNewGame.Add(TTInit);
+--Events.OnInitGlobalModData.Add(TTInit)
