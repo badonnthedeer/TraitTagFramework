@@ -25,7 +25,7 @@ TraitTags.toString = function()
 end
 
 
-TraitTags.tagTableToString= function(traitName)
+TraitTags.tagTableToString = function(traitName)
     local returnString = "";
 
     if TraitTags[traitName] ~= nil
@@ -250,7 +250,7 @@ TraitTags.PlayerTagCountLargerThan = function(player, subjectTag, comparatorTag)
 end
 
 
-TraitTags.TTInit= function()
+TraitTags.TTInit = function()
     if not ModData.exists(TraitTags)
     then
         ModData.add("TraitTags", TraitTags.tags)
@@ -265,3 +265,5 @@ end
 Events.OnGameBoot.Add(TTInit);
 --Events.OnNewGame.Add(TTInit);
 --Events.OnInitGlobalModData.Add(TTInit)
+
+return TraitTags;
