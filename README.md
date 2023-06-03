@@ -50,7 +50,7 @@ Returns a boolean, which is true only if the subjectTag's count is larger than t
 Note: This will also return false if one of the tags cannot be found (with a console print warning of a nil if debug mode is on).
 </li>
 </ul>
-
+<h1>All Vanilla Traits put in .Add</h1>
 Here's a list of all vanilla traits with an example name for your Trait Tags module. This will work in whatever function you add it,
 just add your own tags and run. (current as of build 41):
 <br>TTF.add("Axeman", "");
