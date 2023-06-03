@@ -1,89 +1,140 @@
 # TraitTagFramework
-A framework for adding user-defined strings correlating to Project Zomboid player traits in a global table with built-in functions.
+A Project Zomboid framework for adding user-defined strings correlating to player traits. Trait tags are stored in a table accessed by a module and has built-in functions.
+<h1>How to Use:</h1>
+Declare the module before it's needed (typically at the beginning of the file) with<br>
+<code>local TTF = require("TraitTagFramework");</code><br>
+Depending on your use case, you'll want to add your tags before the player is created. To do this, make a function that gets added to the OnGameBoot event with<br>
+<code>Events.OnGameBoot.Add([your function here])</code><br>
+If you're creating new traits, feel free to mingle  your trait and tag declarations together, like so:<br>
+<code>local AT_Carpenter = TraitFactory.addTrait("AT_Carpenter", getText("UI_trait_AT_Carpenter"), 2, getText("UI_trait_AT_Carpenter_desc"), false);<br>
+AT_Carpenter:addXPBoost(Perks.Woodwork, 1)<br>
+TTF.Add("AT_Carpenter", "Anthro,HabitatBuilder");</code>
+<h1>Available Functions</h1>
+<ul>
+<li><h3>ToString()</h3>
+Returns the entirety of the table and tags in a string.</li>
+<li><h3>TagTableToString(string traitName)</h3>
+Returns the tags associated with a trait as a string</li>
+<li><h3>Add(string traitName, string tags)</h3>
+Add(s) tag(s) to the TraitTags module.<br>
+<strong>Note: For tags, use alphanumeric symbols only, and separate each tag with a comma.</strong>
+</li>
+<li><h3>Remove(string traitName)</h3>
+Removes a trait and all of its tags from the TraitTags module.
+</li>
+<li><h3>RemoveTag(string traitName, string tag)</h3>
+Removes the specified tag from the specified trait in the TraitTags module.
+</li>
+<li><h3>GetTable()</h3>
+Returns the entirety of the TraitTags table as a table.
+</li>
+<li><h3>GetTagTable(string traitName)</h3>
+Returns the table of tags associated with a trait as a table.
+</li>
+<li><h3>GetTagStatistics()</h3>
+Returns a string containing each tag used, and how many times they're used.<br>
+Note: I find this helpful for balancing purposes.
+</li>
+<li><h3>GetPlayerTraitTags(Player player)</h3>
+Returns a string containing each tag a player has.<br>
+</li>
+<li><h3>GetPlayerTagStatistics(Player player)</h3>
+Returns a string containing each tag and the amount(count) of each the player has. This list in the string is ordered by count.<br>
+String format: "[tag]: [count]; [tag]: [count];..."
+</li>
+<li><h3>PlayerHasTag(Player player, string targetTag)</h3>
+Returns a boolean, which is true if the player has the targetTag.
+</li>
+<li><h3>PlayerTagCountLargerThan(Player player, string subjectTag, string comparatorTag)</h3>
+Returns a boolean, which is true only if the subjectTag's count is larger than the comparatorTag's count.<br>
+Note: This will also return false if one of the tags cannot be found (with a console print warning of a nil if debug mode is on).
+</li>
+</ul>
 
-Here's a sample list to get started with this mod (current as of build 41):
-    TraitTags:add("Axeman", "");
-    TraitTags:add("Handy", "");
-    TraitTags:add("SpeedDemon", "");
-    TraitTags:add("SundayDriver", "");
-    TraitTags:add("Brave", "");
-    TraitTags:add("Cowardly", "");
-    TraitTags:add("Clumsy", "");
-    TraitTags:add("Graceful", "");
-    TraitTags:add("ShortSighted", "");
-    TraitTags:add("HardOfHearing", "");
-    TraitTags:add("Deaf", "");
-    TraitTags:add("KeenHearing", "");
-    TraitTags:add("EagleEyed", "");
-    TraitTags:add("HeartyAppitite", "");
-    TraitTags:add("LightEater", "");
-    TraitTags:add("ThickSkinned", "");
-    TraitTags:add("Unfit", "");
-    TraitTags:add("Out of Shape", "");
-    TraitTags:add("Fit", "");
-    TraitTags:add("Athletic", "");
-    TraitTags:add("Nutritionist", "");
-    TraitTags:add("Nutritionist2", "");
-    TraitTags:add("Emaciated", "");
-    TraitTags:add("Very Underweight", "");
-    TraitTags:add("Underweight", "");
-    TraitTags:add("Overweight", "");
-    TraitTags:add("Obese", "");
-    TraitTags:add("Strong", "");
-    TraitTags:add("Stout", "");
-    TraitTags:add("Weak", "");
-    TraitTags:add("Feeble", "");
-    TraitTags:add("Resilient", "");
-    TraitTags:add("ProneToIllness", "");
-    TraitTags:add("Agoraphobic", "");
-    TraitTags:add("Claustophobic", "");
-    TraitTags:add("Lucky", "");
-    TraitTags:add("Unlucky", "");
-    TraitTags:add("Marksman", "");
-    TraitTags:add("NightOwl", "");
-    TraitTags:add("Outdoorsman", "");
-    TraitTags:add("FastHealer", "");
-    TraitTags:add("FastLearner", "");
-    TraitTags:add("FastReader", "");
-    TraitTags:add("AdrenalineJunkie", "");
-    TraitTags:add("Inconspicuous", "");
-    TraitTags:add("NeedsLessSleep", "");
-    TraitTags:add("NightVision", "");
-    TraitTags:add("Organized", "");
-    TraitTags:add("LowThirst", "");
-    TraitTags:add("Burglar", "");
-    TraitTags:add("FirstAid", "");
-    TraitTags:add("Fishing", "");
-    TraitTags:add("Gardener", "");
-    TraitTags:add("Jogger", "");
-    TraitTags:add("SlowHealer", "");
-    TraitTags:add("SlowLearner", "");
-    TraitTags:add("SlowReader", "");
-    TraitTags:add("NeedsMoreSleep", "");
-    TraitTags:add("Conspicuous", "");
-    TraitTags:add("Disorganized", "");
-    TraitTags:add("HighThirst", "");
-    TraitTags:add("Illiterate", "");
-    TraitTags:add("Insomniac", "");
-    TraitTags:add("Pacifist", "");
-    TraitTags:add("Thinskinned", "");
-    TraitTags:add("Smoker", "");
-    TraitTags:add("Tailor", "");
-    TraitTags:add("Dextrous", "");
-    TraitTags:add("AllThumbs", "");
-    TraitTags:add("Desensitized", "");
-    TraitTags:add("WeakStomach", "");
-    TraitTags:add("IronGut", "");
-    TraitTags:add("Hemophobic", "");
-    TraitTags:add("Asthmatic", "");
-    TraitTags:add("Cook", "");
-    TraitTags:add("Cook2", "");
-    TraitTags:add("Herbalist", "");
-    TraitTags:add("Brawler", "");
-    TraitTags:add("Formerscout", "");
-    TraitTags:add("BaseballPlayer", "");
-    TraitTags:add("Hiker", "");
-    TraitTags:add("Hunter", "");
-    TraitTags:add("Gymnast", "");
-    TraitTags:add("Mechanics", "");
-    TraitTags:add("Mechanics2", "");
+Here's a list of all vanilla traits with an example name for your Trait Tags module. This will work in whatever function you add it,
+just add your own tags and run. (current as of build 41):
+<br>TTF.add("Axeman", "");
+<br>TTF.add("Handy", "");
+<br>TTF.add("SpeedDemon", "");
+<br>TTF.add("SundayDriver", "");
+<br>TTF.add("Brave", "");
+<br>TTF.add("Cowardly", "");
+<br>TTF.add("Clumsy", "");
+<br>TTF.add("Graceful", "");
+<br>TTF.add("ShortSighted", "");
+<br>TTF.add("HardOfHearing", "");
+<br>TTF.add("Deaf", "");
+<br>TTF.add("KeenHearing", "");
+<br>TTF.add("EagleEyed", "");
+<br>TTF.add("HeartyAppitite", "");
+<br>TTF.add("LightEater", "");
+<br>TTF.add("ThickSkinned", "");
+<br>TTF.add("Unfit", "");
+<br>TTF.add("Out of Shape", "");
+<br>TTF.add("Fit", "");
+<br>TTF.add("Athletic", "");
+<br>TTF.add("Nutritionist", "");
+<br>TTF.add("Nutritionist2", "");
+<br>TTF.add("Emaciated", "");
+<br>TTF.add("Very Underweight", "");
+<br>TTF.add("Underweight", "");
+<br>TTF.add("Overweight", "");
+<br>TTF.add("Obese", "");
+<br>TTF.add("Strong", "");
+<br>TTF.add("Stout", "");
+<br>TTF.add("Weak", "");
+<br>TTF.add("Feeble", "");
+<br>TTF.add("Resilient", "");
+<br>TTF.add("ProneToIllness", "");
+<br>TTF.add("Agoraphobic", "");
+<br>TTF.add("Claustophobic", "");
+<br>TTF.add("Lucky", "");
+<br>TTF.add("Unlucky", "");
+<br>TTF.add("Marksman", "");
+<br>TTF.add("NightOwl", "");
+<br>TTF.add("Outdoorsman", "");
+<br>TTF.add("FastHealer", "");
+<br>TTF.add("FastLearner", "");
+<br>TTF.add("FastReader", "");
+<br>TTF.add("AdrenalineJunkie", "");
+<br>TTF.add("Inconspicuous", "");
+<br>TTF.add("NeedsLessSleep", "");
+<br>TTF.add("NightVision", "");
+<br>TTF.add("Organized", "");
+<br>TTF.add("LowThirst", "");
+<br>TTF.add("Burglar", "");
+<br>TTF.add("FirstAid", "");
+<br>TTF.add("Fishing", "");
+<br>TTF.add("Gardener", "");
+<br>TTF.add("Jogger", "");
+<br>TTF.add("SlowHealer", "");
+<br>TTF.add("SlowLearner", "");
+<br>TTF.add("SlowReader", "");
+<br>TTF.add("NeedsMoreSleep", "");
+<br>TTF.add("Conspicuous", "");
+<br>TTF.add("Disorganized", "");
+<br>TTF.add("HighThirst", "");
+<br>TTF.add("Illiterate", "");
+<br>TTF.add("Insomniac", "");
+<br>TTF.add("Pacifist", "");
+<br>TTF.add("Thinskinned", "");
+<br>TTF.add("Smoker", "");
+<br>TTF.add("Tailor", "");
+<br>TTF.add("Dextrous", "");
+<br>TTF.add("AllThumbs", "");
+<br>TTF.add("Desensitized", "");
+<br>TTF.add("WeakStomach", "");
+<br>TTF.add("IronGut", "");
+<br>TTF.add("Hemophobic", "");
+<br>TTF.add("Asthmatic", "");
+<br>TTF.add("Cook", "");
+<br>TTF.add("Cook2", "");
+<br>TTF.add("Herbalist", "");
+<br>TTF.add("Brawler", "");
+<br>TTF.add("Formerscout", "");
+<br>TTF.add("BaseballPlayer", "");
+<br>TTF.add("Hiker", "");
+<br>TTF.add("Hunter", "");
+<br>TTF.add("Gymnast", "");
+<br>TTF.add("Mechanics", "");
+<br>TTF.add("Mechanics2", "");

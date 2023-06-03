@@ -1,9 +1,9 @@
-local TraitTags = {}
-TraitTags.tags = {}
+local TraitTags = {};
+TraitTags.tags = {};
 
 TraitTags.SanitizeTags = function(tagString)
     --remove all spaces, control characters, null, punctuation & symbols (except commas)
-    local workString = tagString:gsub('[^%w,]', '')
+    local workString = tagString:gsub('[^%w,]', '');
     return workString;
 end
 
@@ -34,7 +34,7 @@ TraitTags.TagTableToString = function(traitName)
     then
         returnString = table.concat(TraitTags.tags[traitName], ',');
     else
-        print("Trait Tag Framework: No entry found for "..traitName..", cannot stringify tag table. Skipping...")
+        print("Trait Tag Framework: No entry found for "..traitName..", cannot stringify tag table. Skipping...");
     end
     return returnString;
 end
@@ -48,7 +48,7 @@ TraitTags.Add = function(traitName, tags)
     then
         if TraitTags.tags[traitName] == nil
         then
-            print("Trait Tag Framework: Initializing entry for "..traitName.." in TraitTags")
+            print("Trait Tag Framework: Initializing entry for "..traitName.." in TraitTags");
             TraitTags.tags[traitName] = {};
         end
         if string.len(sanitizedTags) > 0
@@ -68,14 +68,29 @@ end
 TraitTags.Remove = function(traitName)
     if TraitTags.tags[traitName] ~= nil
     then
-        table.remove(TraitTags.tags, traitName)
+        table.remove(TraitTags.tags, traitName);
     else
-        print("Trait Tag Framework: No entry found for "..traitName..", cannot remove. Skipping...")
+        print("Trait Tag Framework: No entry found for "..traitName..", cannot remove. Skipping...");
     end
 end
 
+TraitTags.RemoveTag = function(traitName, tag)
+    local traitEntry = TraitTags.tags[traitName];
+    if traitEntry ~= nil and traitEntry:contains("tag")
+    then
+        local tagIndexS, tagIndexE = traitEntry:find(tag);
+        if tagIndexS  ~= 1
+        then
+            TraitTags.tags[traitName] = traitEntry:sub(1,tagIndexS)..traitEntry:sub(tagIndexE + 1, traitEntry:len());
+        else
+            traitEntry:sub(tagIndexE + 1, traitEntry:len());
+        end
+    else
+        print("Trait Tag Framework: No entry found for "..traitName..", cannot remove. Skipping...");
+    end
+end
 
-TraitTags.GetTagTable = function()
+TraitTags.GetTable = function()
     return TraitTags.tags;
 end
 
@@ -83,9 +98,9 @@ end
 TraitTags.GetTagTable = function(traitName)
     if TraitTags.tags[traitName] ~= nil
     then
-        return TraitTags.tags[traitName]
+        return TraitTags.tags[traitName];
     else
-        print("Trait Tag Framework: No entry found for "..traitName..", cannot get tag table. Skipping...")
+        print("Trait Tag Framework: No entry found for "..traitName..", cannot get tag table. Skipping...");
     end
 end
 
@@ -106,7 +121,7 @@ TraitTags.GetTagStatistics = function()
                 then
                     tempTable[tag] = tempTable[tag] + 1;
                 else
-                    tempTable[tag] = 1
+                    tempTable[tag] = 1;
                 end
             end
         end
@@ -114,7 +129,7 @@ TraitTags.GetTagStatistics = function()
 
     --sort
     for key, value in pairs(tempTable) do
-        table.insert(sortTable, {tag = key, count = value})
+        table.insert(sortTable, {tag = key, count = value});
     end
     table.sort(sortTable, function(a, b) return a.count > b.count end);
 
@@ -122,7 +137,7 @@ TraitTags.GetTagStatistics = function()
 
     for _,entry in pairs(sortTable)
     do
-        returnString = returnString..entry.tag..": "..entry.count.."; "
+        returnString = returnString..entry.tag..": "..entry.count.."; ";
     end
 
     return returnString;
@@ -154,7 +169,7 @@ TraitTags.GetPlayerTraitTags = function(player)
             end
         end
     end
-    returnString = returnString:sub(2, returnString:len())
+    returnString = returnString:sub(2, returnString:len());
     return returnString;
 end
 
@@ -180,7 +195,7 @@ TraitTags.GetPlayerTagStatistics = function(player)
                 then
                     tempTable[tag] = tempTable[tag] + 1;
                 else
-                    tempTable[tag] = 1
+                    tempTable[tag] = 1;
                 end
             end
         end
@@ -189,7 +204,7 @@ TraitTags.GetPlayerTagStatistics = function(player)
 
     --sort
     for key, value in pairs(tempTable) do
-        table.insert(sortTable, {tag = key, count = value})
+        table.insert(sortTable, {tag = key, count = value});
     end
     table.sort(sortTable, function(a, b) return a.count > b.count end);
 
@@ -197,7 +212,7 @@ TraitTags.GetPlayerTagStatistics = function(player)
 
     for _,entry in pairs(sortTable)
     do
-        returnString = returnString..entry.tag..": "..entry.count.."; "
+        returnString = returnString..entry.tag..": "..entry.count.."; ";
     end
 
     return returnString;
@@ -238,8 +253,8 @@ TraitTags.PlayerTagCountLargerThan = function(player, subjectTag, comparatorTag)
         local subjectCountIndexS, subjectCountIndexE = stats:find("%d+", subjectIndexE);
         local comparatorCountIndexS, comparatorCountIndexE = stats:find("%d+", comparatorIndexE);
 
-        local subjectCount = stats:sub(subjectCountIndexS, subjectCountIndexE)
-        local comparatorCount = stats:sub(comparatorCountIndexS, comparatorCountIndexE)
+        local subjectCount = stats:sub(subjectCountIndexS, subjectCountIndexE);
+        local comparatorCount = stats:sub(comparatorCountIndexS, comparatorCountIndexE);
 
         if tonumber(subjectCount) > tonumber(comparatorCount)
         then
