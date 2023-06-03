@@ -1,17 +1,18 @@
 local TraitTags = {}
 TraitTags.tags = {}
 
-TraitTags.sanitizeTags = function(tagString)
+TraitTags.SanitizeTags = function(tagString)
     --remove all spaces, control characters, null, punctuation & symbols (except commas)
     local workString = tagString:gsub('[^%w,]', '')
     return workString;
 end
 
 
-TraitTags.toString = function()
+TraitTags.ToString = function()
     local returnString = "";
 
-    for trait, tagTable in pairs(TraitTags)
+
+    for trait, tagTable in pairs(TraitTags.tags)
     do
         if type(tagTable) == "table"
         then
@@ -25,12 +26,13 @@ TraitTags.toString = function()
 end
 
 
-TraitTags.tagTableToString = function(traitName)
+TraitTags.TagTableToString = function(traitName)
     local returnString = "";
 
-    if TraitTags[traitName] ~= nil
+
+    if TraitTags.tags[traitName] ~= nil
     then
-        returnString = table.concat(TraitTags[traitName], ',');
+        returnString = table.concat(TraitTags.tags[traitName], ',');
     else
         print("Trait Tag Framework: No entry found for "..traitName..", cannot stringify tag table. Skipping...")
     end
@@ -39,21 +41,21 @@ end
 
 
 --Uses alphanumberic symbols and commas only.
-TraitTags.add = function(traitName, tags)
-    local sanitizedTags = sanitizeTags(tags);
+TraitTags.Add = function(traitName, tags)
+    local sanitizedTags = TraitTags.SanitizeTags(tags);
     local tagTable = {};
-    if TraitFactory.getTrait(traitName)
+    if TraitFactory.getTrait(traitName) ~= nil
     then
-        if TraitTags[traitName] == nil
+        if TraitTags.tags[traitName] == nil
         then
             print("Trait Tag Framework: Initializing entry for "..traitName.." in TraitTags")
-            TraitTags[traitName] = {};
+            TraitTags.tags[traitName] = {};
         end
         if string.len(sanitizedTags) > 0
         then
             tagTable =  string.split(sanitizedTags, ',');
             print("Trait Tag Framework: adding tags "..sanitizedTags.." to "..traitName.." entry.");
-            TraitTags[traitName] = tagTable;
+            TraitTags.tags[traitName] = tagTable;
         else
             print("Trait Tag Framework: No tags detected for "..traitName..", skipping...");
         end
@@ -63,38 +65,38 @@ TraitTags.add = function(traitName, tags)
 end
 
 
-TraitTags.remove = function(traitName)
-    if TraitTags[traitName] ~= nil
+TraitTags.Remove = function(traitName)
+    if TraitTags.tags[traitName] ~= nil
     then
-        table.remove(TraitTags, traitName)
+        table.remove(TraitTags.tags, traitName)
     else
         print("Trait Tag Framework: No entry found for "..traitName..", cannot remove. Skipping...")
     end
 end
 
 
-TraitTags.getTraitTags = function()
-    return TraitTags;
+TraitTags.GetTagTable = function()
+    return TraitTags.tags;
 end
 
 
-TraitTags.getTagTable = function()
-    if TraitTags[traitName] ~= nil
+TraitTags.GetTagTable = function(traitName)
+    if TraitTags.tags[traitName] ~= nil
     then
-        return TraitTags[traitName]
+        return TraitTags.tags[traitName]
     else
         print("Trait Tag Framework: No entry found for "..traitName..", cannot get tag table. Skipping...")
     end
 end
 
 
-TraitTags.getTagStatistics = function()
+TraitTags.GetTagStatistics = function()
     local tempTable = {};
     local sortTable = {};
     local returnString = "";
 
     --get
-    for trait, tagTable in pairs(TraitTags)
+    for trait, tagTable in pairs(TraitTags.tags)
     do
         if type(tagTable) == "table"
         then
@@ -127,21 +129,21 @@ TraitTags.getTagStatistics = function()
 end
 
 
-TraitTags.getPlayerTraitTags = function(player)
+TraitTags.GetPlayerTraitTags = function(player)
     local playerTraits = player:getTraits();
     local concatenatedTags = "";
     local returnString = "";
 
     if playerTraits ~= nil
     then
-        for i = 1, playerTraits:size() -1
+        for i = 0, (playerTraits:size() -1)
         do
             local trait = playerTraits:get(i);
 
-            if TraitTags[trait] ~= nil
+            if TraitTags.tags[trait] ~= nil
             then
                 concatenatedTags = "";
-                for _,tag in pairs(TraitTags[trait])
+                for _,tag in pairs(TraitTags.tags[trait])
                 do
                     if not returnString:contains(tag)
                     then
@@ -157,7 +159,7 @@ TraitTags.getPlayerTraitTags = function(player)
 end
 
 
-TraitTags.getPlayerTagStatistics = function(player)
+TraitTags.GetPlayerTagStatistics = function(player)
     local playerTraits = player:getTraits();
     local trait = {};
     local tagTable = {};
@@ -165,14 +167,13 @@ TraitTags.getPlayerTagStatistics = function(player)
     local sortTable = {};
     local returnString = "";
 
-
     --get
-    for i=1, playerTraits:size() -1
+    for i = 0, (playerTraits:size() -1)
     do
         trait = playerTraits:get(i);
-        if TraitTags[trait] ~= nil
+        if TraitTags.tags[trait] ~= nil
         then
-            tagTable = TraitTags[trait];
+            tagTable = TraitTags.tags[trait];
             for _, tag in ipairs(tagTable)
             do
                 if tempTable[tag] ~= nil
@@ -208,12 +209,12 @@ TraitTags.PlayerHasTag = function(player, targetTag)
     local trait = {};
     local tagTable = {};
 
-    for i=1, playerTraits:size() -1
+    for i = 0, (playerTraits:size() -1)
     do
         trait = playerTraits:get(i);
-        if TraitTags[trait] ~= nil
+        if TraitTags.tags[trait] ~= nil
         then
-            tagTable = TraitTags[trait];
+            tagTable = TraitTags.tags[trait];
             for _, tag in ipairs(tagTable)
             do
                 if tag == targetTag
@@ -228,13 +229,19 @@ end
 
 
 TraitTags.PlayerTagCountLargerThan = function(player, subjectTag, comparatorTag)
-    local stats = TraitTags:getPlayerTagStatistics(player);
+    local stats = TraitTags.GetPlayerTagStatistics(player);
     local subjectIndexS, subjectIndexE = stats:find(subjectTag);
     local comparatorIndexS, comparatorIndexE = stats:find(comparatorTag);
 
     if subjectIndexS ~= nil and comparatorIndexS ~= nil
     then
-        if subjectIndexS > comparatorIndexS
+        local subjectCountIndexS, subjectCountIndexE = stats:find("%d+", subjectIndexE);
+        local comparatorCountIndexS, comparatorCountIndexE = stats:find("%d+", comparatorIndexE);
+
+        local subjectCount = stats:sub(subjectCountIndexS, subjectCountIndexE)
+        local comparatorCount = stats:sub(comparatorCountIndexS, comparatorCountIndexE)
+
+        if tonumber(subjectCount) > tonumber(comparatorCount)
         then
             return true;
         else
@@ -243,27 +250,10 @@ TraitTags.PlayerTagCountLargerThan = function(player, subjectTag, comparatorTag)
     else
         if getDebug()
         then
-            print("TraitTags: PlayerTagLargerCountThan(): One or more of the given tags is null");
+            print("Trait Tag Framework: PlayerTagLargerCountThan(): One or more of the given tags is null");
         end
-        return nil;
+        return false;
     end
 end
-
-
-TraitTags.TTInit = function()
-    if not ModData.exists(TraitTags)
-    then
-        ModData.add("TraitTags", TraitTags.tags)
-        if getDebug()
-        then
-            print("TraitTags: ModData table created.")
-        end
-    end
-end
-
-
-Events.OnGameBoot.Add(TTInit);
---Events.OnNewGame.Add(TTInit);
---Events.OnInitGlobalModData.Add(TTInit)
 
 return TraitTags;
