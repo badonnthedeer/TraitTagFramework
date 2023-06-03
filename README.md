@@ -138,3 +138,6 @@ just add your own tags and run. (current as of build 41):
 <br>TTF.add("Gymnast", "");
 <br>TTF.add("Mechanics", "");
 <br>TTF.add("Mechanics2", "");
+
+<h1>Credits</h1>
+Special thanks to the Project Zomboid discord modding community for their tireless answering of my questions. Particular thanks to Albion, who has a seemingly encyclopedic knowledge of PZ properties, functions, and modding. You helped a lot :)
