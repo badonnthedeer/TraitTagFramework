@@ -1,5 +1,7 @@
 # TraitTagFramework
 A Project Zomboid framework for adding user-defined strings correlating to player traits. Trait tags are stored in a table accessed by a module and has built-in functions.
+<h1>A message from the creator</h1>
+Do you really enjoy this mod, or even better want to build off of it? Please consider <a href="ko-fi.com/badonnthedeer">donating to me</a> so I can pay my bills. I'm recently unemployed and every little bit helps!
 <h1>How to Use:</h1>
 Declare the module before it's needed (typically at the beginning of the file) with<br>
 <code>local TTF = require("TraitTagFramework");</code><br>
