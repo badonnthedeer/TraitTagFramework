@@ -10,7 +10,7 @@ Depending on your use case, you'll want to add your tags before the player is cr
 If you're creating new traits, feel free to mingle  your trait and tag declarations together, like so:<br>
 <code>local AT_Carpenter = TraitFactory.addTrait("AT_Carpenter", getText("UI_trait_AT_Carpenter"), 2, getText("UI_trait_AT_Carpenter_desc"), false);<br>
 AT_Carpenter:addXPBoost(Perks.Woodwork, 1)<br>
-TTF.Add("AT_Carpenter", "Anthro,HabitatBuilder");</code>
+<strong>TTF.Add("AT_Carpenter", "Anthro,HabitatBuilder");</strong></code>
 <h1>Available Functions</h1>
 <ul>
 <li><h3>ToString()</h3>
@@ -140,6 +140,5 @@ just add your own tags and run. (current as of build 41):
 <br>TTF.add("Gymnast", "");
 <br>TTF.add("Mechanics", "");
 <br>TTF.add("Mechanics2", "");
-
 <h1>Credits</h1>
 Special thanks to the Project Zomboid discord modding community for their tireless answering of my questions. Particular thanks to Albion, who has a seemingly encyclopedic knowledge of PZ properties, functions, and modding. You helped a lot :)
