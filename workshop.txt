@@ -1,0 +1,6 @@
+version=1.11
+title=Trait Tag Framework
+description=Waiting for description upload.
+description=Workshop ID: 2987177652
+description=Mod ID: TraitTagFramework
+visibility=public
