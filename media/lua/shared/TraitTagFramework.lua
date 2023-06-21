@@ -273,14 +273,19 @@ end
 
 
 TraitTags.GetAllTraitsWithTag = function(subjectTag)
-    local tagTable = TraitTags.tags[trait];
+    local tagTable = TraitTags.tags;
     local matchingTraits = {};
 
-    for traitName, tags in ipairs(tagTable)
+    for traitName, tagTable in pairs(tagTable)
     do
-        if tags:contains(subjectTag)
-        then
-            matchingTraits:add(TraitFactory:getTrait(traitName));
+        for _, tag in ipairs(tagTable)
+        do
+            if tag == subjectTag
+            then
+                local trait = TraitFactory.getTrait(traitName);
+                table.insert(matchingTraits, trait);
+                break;
+            end
         end
     end
 
