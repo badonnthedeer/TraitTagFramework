@@ -1,3 +1,16 @@
+--[[⠀
+--------------------------------------------------------------------------------------------------------------------⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                       ⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+WRITTEN BY BADONN THE DEER
+--------------------------------------------------------------------------------------------------------------------
+https://github.com/badonnthedeer/
+https://steamcommunity.com/id/Badonn/myworkshopfiles/
+https://ko-fi.com/BadonnTheDeer
+Discord: badonn
+--------------------------------------------------------------------------------------------------------------------
+--]]
+
+
+
 local TraitTags = {};
 TraitTags.tags = {};
 
@@ -276,9 +289,9 @@ TraitTags.GetAllTraitsWithTag = function(subjectTag)
     local tagTable = TraitTags.tags;
     local matchingTraits = {};
 
-    for traitName, tagTable in pairs(tagTable)
+    for traitName, tags in pairs(tagTable)
     do
-        for _, tag in ipairs(tagTable)
+        for _, tag in ipairs(tags)
         do
             if tag == subjectTag
             then
