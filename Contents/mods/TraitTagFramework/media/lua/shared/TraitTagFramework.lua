@@ -271,4 +271,20 @@ TraitTags.PlayerTagCountLargerThan = function(player, subjectTag, comparatorTag)
     end
 end
 
+
+TraitTags.GetAllTraitsWithTag = function(subjectTag)
+    local tagTable = TraitTags.tags[trait];
+    local matchingTraits = {};
+
+    for traitName, tags in ipairs(tagTable)
+    do
+        if tags:contains(subjectTag)
+        then
+            matchingTraits:add(TraitFactory:getTrait(traitName));
+        end
+    end
+
+    return matchingTraits;
+end
+
 return TraitTags;
