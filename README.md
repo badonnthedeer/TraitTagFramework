@@ -51,7 +51,7 @@ Returns a boolean, which is true if the player has the targetTag.
 Returns a boolean, which is true only if the subjectTag's count is larger than the comparatorTag's count.<br>
 Note: This will also return false if one of the tags cannot be found (with a console print warning of a nil if debug mode is on).
 </li>
-<li><h3></h3>GetAllTraitsWithTag(string subjectTag)</h3>
+<li><h3>GetAllTraitsWithTag(string subjectTag)</h3>
 Returns a collection of Traits that have the subject tag.
 </li>
 </ul>
