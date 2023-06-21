@@ -51,6 +51,9 @@ Returns a boolean, which is true if the player has the targetTag.
 Returns a boolean, which is true only if the subjectTag's count is larger than the comparatorTag's count.<br>
 Note: This will also return false if one of the tags cannot be found (with a console print warning of a nil if debug mode is on).
 </li>
+<li><h3>GetAllTraitsWithTag(string subjectTag)</h3>
+Returns a collection of Traits that have the subject tag.
+</li>
 </ul>
 <h1>All Vanilla Traits put in .Add</h1>
 Here's a list of all vanilla traits with an example name for your Trait Tags module. This will work in whatever function you add it,

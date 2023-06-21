@@ -1,3 +1,16 @@
+--[[⠀
+--------------------------------------------------------------------------------------------------------------------⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                       ⠀⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+WRITTEN BY BADONN THE DEER
+--------------------------------------------------------------------------------------------------------------------
+https://github.com/badonnthedeer/
+https://steamcommunity.com/id/Badonn/myworkshopfiles/
+https://ko-fi.com/BadonnTheDeer
+Discord: badonn
+--------------------------------------------------------------------------------------------------------------------
+--]]
+
+
+
 local TraitTags = {};
 TraitTags.tags = {};
 
@@ -269,6 +282,27 @@ TraitTags.PlayerTagCountLargerThan = function(player, subjectTag, comparatorTag)
         end
         return false;
     end
+end
+
+
+TraitTags.GetAllTraitsWithTag = function(subjectTag)
+    local tagTable = TraitTags.tags;
+    local matchingTraits = {};
+
+    for traitName, tags in pairs(tagTable)
+    do
+        for _, tag in ipairs(tags)
+        do
+            if tag == subjectTag
+            then
+                local trait = TraitFactory.getTrait(traitName);
+                table.insert(matchingTraits, trait);
+                break;
+            end
+        end
+    end
+
+    return matchingTraits;
 end
 
 return TraitTags;
