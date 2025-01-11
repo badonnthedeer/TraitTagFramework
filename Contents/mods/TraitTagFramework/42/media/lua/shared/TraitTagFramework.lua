@@ -48,7 +48,6 @@
 -- Have a problem or question? Reach me on Discord: badonn
 ------------------------------------------------------------------------------------------------------
 
-
 local TraitTags = {};
 TraitTags.tags = {};
 
