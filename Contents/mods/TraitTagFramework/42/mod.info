@@ -1,0 +1,10 @@
+name=Trait Tag Framework
+id=TraitTagFramework
+author=Badonn
+description=Add a global table of traits and their tags to be used as a standard across mods, in which you add tags to traits for use in further customizing gameplay.
+url=https://github.com/badonnthedeer/TraitTagFramework
+poster=poster.png
+icon=icon.png
+modversion=42_1.0.0
+versionMin=41.60
+versionMax=42.0.2
