@@ -48,6 +48,15 @@
 -- Have a problem or question? Reach me on Discord: badonn
 ------------------------------------------------------------------------------------------------------
 
+local function GetTraitName(traitOrLocOrName)
+	-- check if is string otherwise assume it is a CharacterTrait or ResourceLocation
+	if(type(traitOrLocOrName) ~= "string")
+	then
+		return traitOrLocOrName:toString()
+	end
+	return traitOrLocOrName
+end
+
 local TraitTags = {};
 TraitTags.tags = {};
 
@@ -89,23 +98,39 @@ TraitTags.TagTableToString = function(traitName)
     return returnString;
 end
 
-
---Uses alphanumberic symbols and commas only.
-TraitTags.Add = function(traitName, tags)
+--Accepts CharacterTrait, ResourceLocation or string as 1st argument
+--Removes any character not an alphanumberic symbols. Commas used as separator.
+TraitTags.Add = function(trait, tags)
     local sanitizedTags = TraitTags.SanitizeTags(tags);
     local tagTable = {};
-    if TraitFactory.getTrait(traitName) ~= nil
+	local traitName = GetTraitName(trait)
+    if traitName ~= nil
     then
-        if TraitTags.tags[traitName] == nil
+		local currTagTable = TraitTags.tags[traitName]
+        if currTagTable == nil
         then
             print("Trait Tag Framework: Initializing entry for "..traitName.." in TraitTags");
-            TraitTags.tags[traitName] = {};
+            currTagTable = {}
+			TraitTags.tags[traitName] = currTagTable
         end
         if string.len(sanitizedTags) > 0
         then
             tagTable =  string.split(sanitizedTags, ',');
             print("Trait Tag Framework: adding tags "..sanitizedTags.." to "..traitName.." entry.");
-            TraitTags.tags[traitName] = tagTable;
+			-- add new tags instead of replacing tag table
+			for i=1, #tagTable do
+				local found = false
+				for j=1, #currTagTable do
+					if currTagTable[j] == tagTable[i]
+					then
+						found = true
+					end
+				end
+				if not found
+				then
+					currTagTable[#currTagTable + 1] = tagTable[i]
+				end
+			end
         else
             print("Trait Tag Framework: No tags detected for "..traitName..", skipping...");
         end
@@ -115,7 +140,8 @@ TraitTags.Add = function(traitName, tags)
 end
 
 
-TraitTags.Remove = function(traitName)
+TraitTags.Remove = function(trait)
+	local traitName = GetTraitName(trait)
     if TraitTags.tags[traitName] ~= nil
     then
         table.remove(TraitTags.tags, traitName);
@@ -124,7 +150,8 @@ TraitTags.Remove = function(traitName)
     end
 end
 
-TraitTags.RemoveTag = function(traitName, tag)
+TraitTags.RemoveTag = function(trait, tag)
+	local traitName = GetTraitName(trait)
     local traitEntry = TraitTags.tags[traitName];
     if traitEntry ~= nil and traitEntry:contains("tag")
     then
@@ -145,7 +172,8 @@ TraitTags.GetTable = function()
 end
 
 
-TraitTags.GetTagTable = function(traitName)
+TraitTags.GetTagTable = function(trait)
+	local traitName = GetTraitName(trait)
     if TraitTags.tags[traitName] ~= nil
     then
         return TraitTags.tags[traitName];
@@ -332,7 +360,7 @@ TraitTags.GetAllTraitsWithTag = function(subjectTag)
         do
             if tag == subjectTag
             then
-                local trait = TraitFactory.getTrait(traitName);
+                local trait = CharacterTrait.get(ResourceLocation.of(traitName));
                 table.insert(matchingTraits, trait);
                 break;
             end
