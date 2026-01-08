@@ -144,7 +144,8 @@ description=[h1]A message from the creator[/h1]
 description=Do you really enjoy this mod--or even better--want to build on it? Please consider [url=https://ko-fi.com/badonnthedeer]donating to me[/url]! I'm in definite financial need, so every little bit helps! Thank you.
 description=
 description=[h1]Special Thanks[/h1]
-description=to the Project Zomboid discord modding community for their tireless answering of my questions. 
+description=to the Project Zomboid discord modding community for their tireless answering of my questions.
+description=to RabenRabo, for updating this mod to B42 Unstable MP!
 description=Particular thanks to Albion, who has a seemingly encyclopedic knowledge of PZ properties, functions, and modding. You helped a lot :)
 description=
 description=[quote=Badonn]Please don't copy this mod and upload it as your own! Please also ask if you can use this in a mod pack. If you would like to translate the mod, send me a message or leave a comment and I'll work with you to add it in! This mod is under the MIT License.[/quote]
