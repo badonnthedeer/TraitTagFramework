@@ -52,7 +52,7 @@ description=[/list]
 description=
 description=[h1]Adding to all Vanilla Traits[/h1]
 description=Here's a code snippet written by RabenRabo that tags all vanilla traits and adds some other tags.:
-description=[quote=RabenRabo]
+description=[code]
 description=TTF = require("TraitTagFramework");
 description=local allTraits = Registries.CHARACTER_TRAIT:values()
 description=	-- take all currently registered traits and add "Vanilla" tag to all with default namespace ("base")
@@ -63,15 +63,15 @@ description=		if locID:getNamespace() == ResourceLocation.DEFAULT_NAMESPACE
 description=		then
 description=			TTF.Add(locID, "Vanilla");
 description=		end
-description=	end	
-description=	
+description=	end
+description=
 description=	-- add additional tags to vanilla traits
 description=	TTF.Add("Base:EagleEyed", "Anthro,KeenVision");
 description=	TTF.Add("Base:KeenHearing", "Anthro,KeenHearing");
 description=    TTF.Add("Base:ThickSkinned", "Anthro,Tough");
 description=    TTF.Add("Base:NightVision", "Anthro,KeenVision");
 description=    TTF.Add("Base:IronGut", "Anthro,Scavenger");
-description=[/quote]
+description=[/code]
 description=[hr][/hr]
 description=[h1]A message from the creator[/h1]
 description=Do you really enjoy this mod--or even better--want to build on it? Please consider [url=https://ko-fi.com/badonnthedeer]donating to me[/url]! I'm in definite financial need, so every little bit helps! Thank you.
